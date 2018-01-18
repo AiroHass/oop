@@ -19,4 +19,32 @@ class template
 //        fclose($fp);
         $this-> content=file_get_contents($f);
     }
+    // Funktsioon mis kontrollib faili ning võtab selle kasutusele.
+    function loadFile(){
+        if(!is_dir(VIEWS_DIR)){
+            echo "Kataloogi ".VIEWS_DIR.'ei ole leitud<br/>';
+            exit;
+        }
+        $f = $this->file;
+        if(file_exists($f) and is_file($f) and is_readable($f)){
+            $this->readFile($f);
+        }
+        $f=VIEWS_DIR.$this->file;
+        if(file_exists($f) and is_file($f) and is_readable($f)){
+            $this->readFile($f);
+        }
+        $f=VIEWS_DIR.$this->file.'.html';
+        if(file_exists($f) and is_file($f) and is_readable($f)){
+            $this->readFile($f);
+        }
+        $f=VIEWS_DIR.str_replace(".","/",$this->file).'.html';
+        if(file_exists($f) and is_file($f) and is_readable($f)){
+            $this->readFile($f);
+        }
+        if($this->content===false){
+            echo 'Ei suutnud faili lugeda - '.$this->file.'<br/>';
+        }
+
+
+    }
 }
